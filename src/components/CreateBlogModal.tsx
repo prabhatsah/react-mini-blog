@@ -32,6 +32,8 @@ export default function CreateBlogModal({ onClose, onSuccess }: CreateBlogModalP
     image: defaultImages[0],
   });
 
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -41,10 +43,8 @@ export default function CreateBlogModal({ onClose, onSuccess }: CreateBlogModalP
       const contentWords = formData.content.split(/\s+/).length;
       const readTime = Math.max(1, Math.ceil(contentWords / 200));
 
-      console.log("blog started", formData);
-
-      const blog = await axios.post(
-        "http://localhost:5000/api/v1/blog",
+      await axios.post(
+        `${apiUrl}/api/v1/blog`,
         {
           title: formData.title,
           excerpt: formData.excerpt,
@@ -57,9 +57,6 @@ export default function CreateBlogModal({ onClose, onSuccess }: CreateBlogModalP
           withCredentials: true, // 👈 include cookie
         }
       );
-
-      // });
-      console.log("blog ended", blog);
 
       onSuccess();
       onClose();

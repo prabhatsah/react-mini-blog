@@ -22,16 +22,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   // const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const user = await axios("http://localhost:5000/api/v1/user/me", { withCredentials: true });
+        const user = await axios(`${apiUrl}/api/v1/user/me`, { withCredentials: true });
         setUser(user.data.data);
       } catch (error) {
         setUser(null);
-        console.log("Error fetching user:", error);
+        // console.log("Error fetching user:", error);
       } finally {
         setLoading(false);
       }
@@ -42,7 +44,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signUp = async (email: string, password: string, name: string) => {
     try {
-      await axios({ method: "post", url: "http://localhost:5000/api/v1/user/register", data: { email, password, name } });
+      await axios({ method: "post", url: `${apiUrl}/api/v1/user/register`, data: { email, password, name } });
 
       toast.success("User created");
     } catch (error) {
@@ -54,7 +56,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       await axios({
         method: "post",
-        url: "http://localhost:5000/api/v1/user/login",
+        url: `${apiUrl}/api/v1/user/login`,
         data: {
           email,
           password,
@@ -64,10 +66,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       toast.success("Login success");
 
-      const userRes = await axios.get("http://localhost:5000/api/v1/user/me", { withCredentials: true });
+      const userRes = await axios.get(`${apiUrl}/api/v1/user/me`, { withCredentials: true });
       setUser(userRes.data.data);
     } catch (error) {
-      console.log("Error:", error);
+      toast.error(error?.response?.data?.message);
     }
   };
 
@@ -75,13 +77,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       await axios({
         method: "get",
-        url: "http://localhost:5000/api/v1/user/logout",
+
+        url: `${apiUrl}/api/v1/user/logout`,
         withCredentials: true,
       });
       setUser(null);
       toast.success("Logout success");
     } catch (error) {
-      console.log("Error:", error);
+      // console.log("Error:", error);
     }
   };
 

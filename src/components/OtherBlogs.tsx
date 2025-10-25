@@ -16,11 +16,13 @@ export default function OtherBlogs({ onSelectPost, searchQuery, selectedCategory
   const [posts, setPosts] = useState<DbBlogPost[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true);
       try {
-        const { data } = await axios.get("http://localhost:5000/api/v1/blog/other", { withCredentials: true });
+        const { data } = await axios.get(`${apiUrl}/api/v1/blog/other`, { withCredentials: true });
 
         setPosts(data.data || []);
       } catch (err) {

@@ -17,10 +17,12 @@ export default function MyBlogs({ onSelectPost, refreshTrigger }: MyBlogsProps) 
   const [loading, setLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   const fetchMyPosts = async () => {
     setLoading(true);
     try {
-      const { data } = await axios({ method: "get", url: "http://localhost:5000/api/v1/blog", withCredentials: true });
+      const { data } = await axios({ method: "get", url: `${apiUrl}/api/v1/blog`, withCredentials: true });
 
       setMyPosts(data.data || []);
     } catch (err) {
@@ -101,7 +103,7 @@ export default function MyBlogs({ onSelectPost, refreshTrigger }: MyBlogsProps) 
                 }}
                 onClick={() => onSelectPost(post)}
               />
-              <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+              {/* <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                 <button
                   onClick={(e) => handleDelete(post.id, e)}
                   className="p-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
@@ -109,7 +111,7 @@ export default function MyBlogs({ onSelectPost, refreshTrigger }: MyBlogsProps) 
                 >
                   <Trash2 className="w-4 h-4" />
                 </button>
-              </div>
+              </div> */}
             </div>
           ))}
         </div>

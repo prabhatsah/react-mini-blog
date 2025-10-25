@@ -14,7 +14,6 @@ function AppContent() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
-  console.log("user:", user);
 
   const categories = ["Development", "Design", "Architecture", "Trends", "Performance", "CSS"];
 
@@ -43,7 +42,7 @@ function AppContent() {
           excerpt: selectedPost.excerpt,
           content: selectedPost.content,
           author: selectedPost.author_name,
-          date: selectedPost.created_at,
+          date: selectedPost.createdAt,
           category: selectedPost.category,
           readTime: selectedPost.read_time,
           image: selectedPost.image,
